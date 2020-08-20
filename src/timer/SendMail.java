@@ -28,7 +28,7 @@ import com.sun.mail.util.MailSSLSocketFactory;
 public class SendMail {
 	// 发件人的 邮箱 和 密码（替换为自己的邮箱和密码）
     public static String myEmailAccount = "1096461774@qq.com";
-    public static String myEmailPassword = "";//这个密码不是QQ密码或者邮箱密码，要验证的。
+    public static String myEmailPassword = "siekufplpouagfib";//这个密码不是QQ密码或者邮箱密码，要验证的。
 
 	// 发件人邮箱的 SMTP 服务器地址, 必须准确, 不同邮件服务器地址不同, 一般格式为: smtp.xxx.com
 	// qq邮箱的 SMTP 服务器地址为: smtp.qq.com

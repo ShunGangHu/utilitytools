@@ -190,28 +190,32 @@ public class SystemUtil{
 				ch.ethz.ssh2.Session session = conn.openSession();
 				// Execute a command on the remote machine.
 				session.execCommand(cmds);
-
+				Thread.sleep(1000*10);
+				session.getStdin();
 				BufferedReader br = new BufferedReader(new InputStreamReader(session
 					.getStdout()));
-				BufferedReader brErr = new BufferedReader(new InputStreamReader(session
-					.getStderr()));
+				/*BufferedReader brErr = new BufferedReader(new InputStreamReader(session
+					.getStderr()));*/
 
 				String line;
 				while ((line = br.readLine()) != null) {
+					
 					logger.info("br={}", line);
+					if (line.indexOf("Server startup in") != -1||
+							line.indexOf("Server started in RUNNING mode") != -1) {
+						session.close();
+					}
 				}
-				while ((line = brErr.readLine()) != null) {
+				/*while ((line = brErr.readLine()) != null) {
 					logger.info("brErr={}", line);
-				}
+				}*/
 				if (null != br) {
 					br.close();
 				}
-				if (null != brErr) {
+				/*if (null != brErr) {
 					brErr.close();
-				}
-				session.waitForCondition(ChannelCondition.EXIT_STATUS, 0);
-				int ret = session.getExitStatus();
-				logger.info("getExitStatus:" + ret);
+				}*/
+				
 			} else {
 				logger.info("µÇÂ¼Ô¶³Ì»úÆ÷Ê§°Ü" + ip);
 			}

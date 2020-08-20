@@ -30,8 +30,12 @@ public class OracleManage {
 
     
     /**
-     * 连接数据库
-     * @return
+     * 
+     * 方法简介.连接数据库
+     *
+     * @author HSG
+     * @date 创建时间 2020年8月12日
+     * @since V1.0
      */
     public Connection getConnection() {
         try {

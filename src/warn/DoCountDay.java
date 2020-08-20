@@ -13,17 +13,18 @@ public class DoCountDay{
 	
 	private static int count = 0;
 	public static void main(String[] args) throws InterruptedException {
-		int initNum = 0;
+		int initNum = 2;
+		System.out.println("====================功能已启动================");
 		while (true) {
 			Calendar now = Calendar.getInstance();
 			int hour = now.get(Calendar.HOUR_OF_DAY);
 			
-			 Date date = new Date();
-             SimpleDateFormat format2 = new SimpleDateFormat("yyyyMMdd");
-             String time = format2.format(date);
+			Date date = new Date();
+            SimpleDateFormat format2 = new SimpleDateFormat("yyyyMMdd");
+            String time = format2.format(date);
 			if (13 == hour && count == 0) {
 				count = 1;
-				if (initNum % 3 == 0) {
+				if (initNum % 2 == 0) {
 					System.out.println(time + "：YES");
 				} else {
 					System.out.println(time + "：NO");
@@ -34,8 +35,8 @@ public class DoCountDay{
 			if (13 != hour) {
 				count = 0;
 			}
-			if (initNum == 9) {
-				initNum = 0;
+			if (initNum == 8) {
+				initNum = 1;
 			}
 			Thread.sleep(2000);
 		}

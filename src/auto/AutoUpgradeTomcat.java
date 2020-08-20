@@ -17,39 +17,44 @@ public class AutoUpgradeTomcat {
 
 	public static void main(String[] args) throws Exception {
 		
+		//tomcat文件夹
+		String tomcatName = "tomcat_dwat";
+		//远程Linux服务器IP
+		String host = "10.1.10.21";
+		//远程Linux服务器用户
+		String username = "root";
+		//远程Linux服务器密码
+		String password = "oracledba";
+		//远程Linux服务器重启脚本
+		String shellPath = "sh /new/" + tomcatName + "/bin/stopAllAndStartAll.sh ";
+		//远程Tomcat目录
+		String jspDstRoot = "/new/" + tomcatName + "/webapps/";
+		String javaDstRoot = "/new/" + tomcatName + "/webapps/dwat/WEB-INF/classes/";
+		//本地tomcat路径
+		String jspSrcRoot = "F:/apache-tomcat-6.0.41-windows-x64/apache-tomcat-6.0.41/webapps/";
+		String javaSrcRoot = "F:/apache-tomcat-6.0.41-windows-x64/apache-tomcat-6.0.41/webapps/dwat/WEB-INF/classes/";
+		
+		//待升级文件路径集合文件
 		String filePath = AutoUpgradeTomcat.class.getClassLoader().getResource("filePathToUpgrade.txt").getPath();;
 		
-		List<String> filePathList = FileUtils.readLines(new File(filePath), "utf-8");
+		List<String> filePathList = FileUtils.readLines(new File(filePath), "utf-8");//解析文件内容
 		
 		//String fileStr = SystemUtil.readFileByLine(filePath);
 		//String[] cls = new String[] {"cmd.exe","/c","cls"};
 		//Runtime.getRuntime().exec(cls);
 		
-		System.out.println("请确定是否已修改待升级文件：0：未修改，1：已修改");
+		System.out.println("请确定待升级文件、远程服务器信息等是否正确：0：错误，1：正确");
 		Scanner scanner = new Scanner(System.in);
 		String fileedit = scanner.next();
-		if (fileedit.equals("0")) {//0：未修改，1：已修改
-			System.out.println("=========未修改已中断========");
+		if (fileedit.equals("0")) {//0：错误，1：正确
+			System.out.println("=========错误并已中断========");
 			System.exit(0);
 		}
 		
 		scanner.close();
-		String tomcatName = "tomcat_dwat_temp";
-		//String [] fileArr = fileStr.split(",");
-		String jspDstRoot = "/new/" + tomcatName + "/webapps/";
-		String javaDstRoot = "/new/" + tomcatName + "/webapps/dwat/WEB-INF/classes/";
-		
-		String jspSrcRoot = "F:/apache-tomcat-6.0.41-windows-x64/apache-tomcat-6.0.41/webapps/";
-		String javaSrcRoot = "F:/apache-tomcat-6.0.41-windows-x64/apache-tomcat-6.0.41/webapps/dwat/WEB-INF/classes/";
-		
-		String host = "";
-		String username = "";
-		String password = "";
 		
 		String src = "",dst ="",pathi="";
 		Session session = null;
-		//以后升级war包的次数会很少，甚至没有
-		String warPath  = "C:/Users/HSG/Desktop/dwat.war";
 		boolean reStartFlag = false;
 		try {
 			session = SystemUtil.connectLinux(host, 22, username, password);
@@ -68,8 +73,14 @@ public class AutoUpgradeTomcat {
 				} else {
 					reStartFlag = true;
 					if (pathi.trim().endsWith(".war")) {
+						//本地war包路径   以后升级war包的次数会很少，甚至没有
+						String warPath  = "C:/Users/HSG/Desktop/dwat.war";
+						///System.out.println("请输入war包路径：");
+						//Scanner scannerWar = new Scanner(System.in);
+						//warPath = scannerWar.next();
 						src = warPath;
 						dst = jspDstRoot;
+						//scannerWar.close();
 					} else {
 						src = javaSrcRoot + pathi.trim().replaceAll("src/", "").replaceAll(".java", ".class");
 						dst = javaDstRoot + pathi.trim().replaceAll("src/", "").replaceAll(".java", ".class");
@@ -81,7 +92,7 @@ public class AutoUpgradeTomcat {
 			SystemUtil.disconnectLinux(session);
 			System.out.println("==========上传会话已关闭==========");
 			if (reStartFlag) {
-				SystemUtil.remoteInvokeShell(host, 22, username, password, "sh /new/" + tomcatName + "/bin/stopAllAndStartAll.sh ");
+				SystemUtil.remoteInvokeShell(host, 22, username, password, shellPath);
 				//SystemUtil.executeLinuxCommand(session, "sh /new/" + tomcatName + "/bin/stopAllAndStartAll.sh ", false);
 				System.out.println("==========重启成功==========");
 			}
@@ -93,7 +104,6 @@ public class AutoUpgradeTomcat {
 			throw e;
 		}
 		System.out.println("==========升级完成==========");
-
 	}
 
 }
