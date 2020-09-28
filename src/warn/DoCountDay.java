@@ -1,5 +1,8 @@
 package warn;
 
+import org.apache.commons.io.FileUtils;
+
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -12,7 +15,7 @@ import java.util.Date;
 public class DoCountDay{
 	
 	private static int count = 0;
-	public static void main(String[] args) throws InterruptedException {
+	public static void main(String[] args) throws Exception {
 		int initNum = 2;
 		System.out.println("====================功能已启动================");
 		while (true) {
@@ -24,18 +27,25 @@ public class DoCountDay{
             String time = format2.format(date);
 			if (13 == hour && count == 0) {
 				count = 1;
+				String log = "";
 				if (initNum % 2 == 0) {
-					System.out.println(time + "：YES");
+					log = time + "：YES";
+					System.out.println(log);
 				} else {
-					System.out.println(time + "：NO");
+					log = time + "：NO";
+					System.out.println(log);
 				}
+				File filelog = new File("D:\\log\\countday.log");
+				String fileContent = FileUtils.readFileToString(filelog,"utf-8");
+				fileContent = fileContent + "\n" + log;
+				FileUtils.writeStringToFile(filelog,fileContent,"utf-8");
 				initNum +=1;
 				//
 			}
 			if (13 != hour) {
 				count = 0;
 			}
-			if (initNum == 8) {
+			if (initNum == 9) {
 				initNum = 1;
 			}
 			Thread.sleep(2000);
