@@ -190,7 +190,7 @@ public class SystemUtil{
 				ch.ethz.ssh2.Session session = conn.openSession();
 				// Execute a command on the remote machine.
 				session.execCommand(cmds);
-				Thread.sleep(1000*10);
+				//Thread.sleep(1000*10);
 				session.getStdin();
 				BufferedReader br = new BufferedReader(new InputStreamReader(session
 					.getStdout()));
@@ -198,13 +198,23 @@ public class SystemUtil{
 					.getStderr()));*/
 
 				String line;
-				while ((line = br.readLine()) != null) {
-					
-					logger.info("br={}", line);
-					if (line.indexOf("Server startup in") != -1||
-							line.indexOf("Server started in RUNNING mode") != -1) {
-						session.close();
+				boolean flag = true;
+				int count = 0;
+				while (flag && count <= 9) {
+					while ((line = br.readLine()) != null) {
+
+						logger.info("br={}", line);
+						if (line.indexOf("Server startup in") != -1 ||
+								line.indexOf("Server started in RUNNING mode") != -1) {
+							session.close();
+							flag = false;
+						}
 					}
+					br = new BufferedReader(new InputStreamReader(session
+							.getStdout()));
+
+					Thread.sleep(1000 * 1);
+					count++;
 				}
 				/*while ((line = brErr.readLine()) != null) {
 					logger.info("brErr={}", line);
