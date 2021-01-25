@@ -1,53 +1,55 @@
 package auto;
 
+import com.jcraft.jsch.Session;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang.StringUtils;
+
 import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
-import org.apache.commons.io.FileUtils;
-
-import com.jcraft.jsch.Session;
-
 /**
 * @author: HSG 
-* @åˆ›å»ºæ—¶é—´: 2020å¹´8æœˆ5æ—¥ ä¸‹åˆ1:16:36 
+* @´´½¨Ê±¼ä: 2020Äê8ÔÂ5ÈÕ ÏÂÎç1:16:36 
 * @version: 1.0  
 */
 public class AutoUpgradeTomcat {
 
 	public static void main(String[] args) throws Exception {
-		
-		//tomcatæ–‡ä»¶å¤¹
-		String tomcatName = "tomcat_dwat";
-		//è¿œç¨‹LinuxæœåŠ¡å™¨IP
-		String host = "";
-		//è¿œç¨‹LinuxæœåŠ¡å™¨ç”¨æˆ·
-		String username = "";
-		//è¿œç¨‹LinuxæœåŠ¡å™¨å¯†ç 
-		String password = "";
-		//è¿œç¨‹LinuxæœåŠ¡å™¨é‡å¯è„šæœ¬
+
+		//tomcatÎÄ¼ş¼Ğ
+		String tomcatName = "tomcat_dwat";//_temp
+		//Ô¶³ÌLinux·şÎñÆ÷IP
+		String host = "10.1.10.21";
+		//Ô¶³ÌLinux·şÎñÆ÷ÓÃ»§
+		String username = "root";
+		//Ô¶³ÌLinux·şÎñÆ÷ÃÜÂë
+		String password = "oracledba";
+		//Ô¶³ÌLinux·şÎñÆ÷ÖØÆô½Å±¾
 		String shellPath = "sh /new/" + tomcatName + "/bin/stopAllAndStartAll.sh ";
-		//è¿œç¨‹Tomcatç›®å½•
+		//Ô¶³ÌTomcatÄ¿Â¼
 		String jspDstRoot = "/new/" + tomcatName + "/webapps/";
 		String javaDstRoot = "/new/" + tomcatName + "/webapps/dwat/WEB-INF/classes/";
-		//æœ¬åœ°tomcatè·¯å¾„
-		String jspSrcRoot = "F:/apache-tomcat-6.0.41-windows-x64/apache-tomcat-6.0.41/webapps/";
-		String javaSrcRoot = "F:/apache-tomcat-6.0.41-windows-x64/apache-tomcat-6.0.41/webapps/dwat/WEB-INF/classes/";
+		//±¾µØtomcatÂ·¾¶
+		String jspSrcRoot = "F:/apache-tomcat-8.0.20/apache-tomcat-8.0.20/webapps/";
+		String javaSrcRoot = "F:/apache-tomcat-8.0.20/apache-tomcat-8.0.20/webapps/dwat/WEB-INF/classes/";
 		
-		//å¾…å‡çº§æ–‡ä»¶è·¯å¾„é›†åˆæ–‡ä»¶
-		String filePath = AutoUpgradeTomcat.class.getClassLoader().getResource("filePathToUpgrade.txt").getPath();;
-		
-		List<String> filePathList = FileUtils.readLines(new File(filePath), "utf-8");//è§£ææ–‡ä»¶å†…å®¹
+		//´ıÉı¼¶ÎÄ¼şÂ·¾¶¼¯ºÏÎÄ¼ş
+		String filePath = AutoUpgradeTomcat.class.getClassLoader().getResource("filePathToUpgrade.txt").getPath();
+
+		List<String> filePathList = FileUtils.readLines(new File(filePath), "utf-8");//½âÎöÎÄ¼şÄÚÈİ
 		
 		//String fileStr = SystemUtil.readFileByLine(filePath);
 		//String[] cls = new String[] {"cmd.exe","/c","cls"};
 		//Runtime.getRuntime().exec(cls);
 		
-		System.out.println("è¯·ç¡®å®šå¾…å‡çº§æ–‡ä»¶ã€è¿œç¨‹æœåŠ¡å™¨ä¿¡æ¯ç­‰æ˜¯å¦æ­£ç¡®ï¼š0ï¼šé”™è¯¯ï¼Œ1ï¼šæ­£ç¡®");
+		System.out.println("ÇëÈ·¶¨´ıÉı¼¶ÎÄ¼ş¡¢Ô¶³Ì·şÎñÆ÷ĞÅÏ¢µÈÊÇ·ñÕıÈ·£º0£º´íÎó£¬1£ºÕıÈ·");
 		Scanner scanner = new Scanner(System.in);
 		String fileedit = scanner.next();
-		if (fileedit.equals("0")) {//0ï¼šé”™è¯¯ï¼Œ1ï¼šæ­£ç¡®
-			System.out.println("=========é”™è¯¯å¹¶å·²ä¸­æ–­========");
+		if (fileedit.equals("0")) {//0£º´íÎó£¬1£ºÕıÈ·
+			System.out.println("=========´íÎó²¢ÒÑÖĞ¶Ï========");
 			System.exit(0);
 		}
 		
@@ -63,8 +65,8 @@ public class AutoUpgradeTomcat {
 				if (!pathi.trim().endsWith(".jsp")
 						&& !pathi.trim().endsWith(".java")
 						&& !pathi.trim().endsWith(".war")) {
-					throw new Exception("ç¬¬" + (i + 1)
-							+ "è¡Œæ–‡ä»¶è·¯å¾„ä¸æ˜¯ä»¥.jspæˆ–.javaç»“å°¾ï¼");
+					throw new Exception("µÚ" + (i + 1)
+							+ "ĞĞÎÄ¼şÂ·¾¶²»ÊÇÒÔ.jsp»ò.java½áÎ²£¡");
 				}
 				
 				if (pathi.trim().endsWith(".jsp")) {
@@ -73,9 +75,9 @@ public class AutoUpgradeTomcat {
 				} else {
 					reStartFlag = true;
 					if (pathi.trim().endsWith(".war")) {
-						//æœ¬åœ°waråŒ…è·¯å¾„   ä»¥åå‡çº§waråŒ…çš„æ¬¡æ•°ä¼šå¾ˆå°‘ï¼Œç”šè‡³æ²¡æœ‰
+						//±¾µØwar°üÂ·¾¶   ÒÔºóÉı¼¶war°üµÄ´ÎÊı»áºÜÉÙ£¬ÉõÖÁÃ»ÓĞ
 						String warPath  = "C:/Users/HSG/Desktop/dwat.war";
-						///System.out.println("è¯·è¾“å…¥waråŒ…è·¯å¾„ï¼š");
+						///System.out.println("ÇëÊäÈëwar°üÂ·¾¶£º");
 						//Scanner scannerWar = new Scanner(System.in);
 						//warPath = scannerWar.next();
 						src = warPath;
@@ -86,15 +88,19 @@ public class AutoUpgradeTomcat {
 						dst = javaDstRoot + pathi.trim().replaceAll("src/", "").replaceAll(".java", ".class");
 					}
 				}
+				if (new File(src).exists() == false) {
+					throw new Exception(src + "²»´æÔÚ£¡");
+				}
 				SystemUtil.uploadFileToLinux(session, src, dst);
-				System.out.println("==========" + src + "ï¼šä¸Šä¼ æˆåŠŸ==========");
+				SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//ÉèÖÃÈÕÆÚ¸ñÊ½
+				System.out.println("==========" + df.format(new Date()) + "="+ src + "£ºÉÏ´«³É¹¦==========");
 			}
 			SystemUtil.disconnectLinux(session);
-			System.out.println("==========ä¸Šä¼ ä¼šè¯å·²å…³é—­==========");
+			System.out.println("==========ÉÏ´«»á»°ÒÑ¹Ø±Õ==========");
 			if (reStartFlag) {
 				SystemUtil.remoteInvokeShell(host, 22, username, password, shellPath);
 				//SystemUtil.executeLinuxCommand(session, "sh /new/" + tomcatName + "/bin/stopAllAndStartAll.sh ", false);
-				System.out.println("==========é‡å¯æˆåŠŸ==========");
+				System.out.println("==========ÖØÆô³É¹¦==========");
 			}
 		} catch (Exception e) {
 			if (session != null && session.isConnected()) {
@@ -103,7 +109,10 @@ public class AutoUpgradeTomcat {
 			//System.out.println(e.getMessage());
 			throw e;
 		}
-		System.out.println("==========å‡çº§å®Œæˆ==========");
+		String content = FileUtils.readFileToString(new File("G:\\idea2018workspace\\utilitytools\\src\\filePathToUpgrade.txt"),"utf-8");
+		content = content + "\n====ÒÔÉÏÎÄ¼şÒÑÉı¼¶ÁË====";
+		FileUtils.writeStringToFile(new File("G:\\idea2018workspace\\utilitytools\\src\\filePathToUpgrade.txt"),content,"utf-8");
+		System.out.println("==========Éı¼¶Íê³É==========");
 	}
 
 }
