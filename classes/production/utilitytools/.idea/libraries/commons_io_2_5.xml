@@ -1,0 +1,40 @@
+<component name="libraryTable">
+  <library name="commons-io-2.5">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/commons-io-2.5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/commons-logging-1.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/ganymed-ssh2-build210.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jsch-0.1.55.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/log4j-1.2.15.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/log4j-1.2.17.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/mail.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/ojdbc6.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/org.caiyi.SqlHandler.core-1.0-SNAPSHOT.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/slf4j-api-1.7.25.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/slf4j-log4j12-1.7.19.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/wlfullclient.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jenkins-client-0.3.8.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/httpclient-4.4.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/guava-23.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/httpcore-4.4.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/httpmime-4.5.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/commons-lang3-3.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jackson-databind-2.1.5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jackson-core-2.1.5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jackson-annotations-2.1.5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/commons-codec-1.6.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/commons-lang-1.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/sdk.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jcifs-1.3.19.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/sqljet-1.1.10.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/svnkit-1.8.5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/svnkit-cli-1.8.5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/svnkit-javahl16-1.8.5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/sequence-library-1.0.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/antlr-runtime-3.4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/pinyin4j-2.5.1.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
